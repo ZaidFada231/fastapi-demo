@@ -15,10 +15,11 @@ app = FastAPI()
 # The zone apex is the 'default' page for a URL
 # This will return a simple hello world via GET method.
 
+
 @app.get("/")  # zone apex
 def zone_apex():
     return {"Hello": "Hey everybody it's tuesday!"}
-    
+
 
 @app.get("/github/repos/{user}")
 def github_user_repos(user):
@@ -27,10 +28,11 @@ def github_user_repos(user):
     body = json.loads(response.text)
     return {"repos": body}
 
+
 # Endpoints and Methods
 # /blah - endpoint
 # GET/POST/DELETE/PATCH - methods
-# 
+#
 # Simple GET method demo
 # Adds two integers as PATH parameters
 @app.get("/add/{number_1}/{number_2}")
@@ -38,11 +40,19 @@ def add_me(number_1: int, number_2: int):
     sum = number_1 + number_2
     return {"sum": sum}
 
+
 # Let's develop a new one:
 @app.get("/divide/{number_1}/{number_2}")
 def divide_me(number_1: int, number_2: int):
     div = number_2 / number_1
     return {"quotient": div}
+
+
+@app.get("/multiply/{number_1}/{number_2}")
+def multiply_me(number_1: int, number_2: int):
+    mult = number_1 * number_2
+    return {"mult": mult}
+
 
 ## Parameters
 # Introduce parameter data types and defaults from the Optional library
@@ -70,11 +80,13 @@ def read_items(item_id: int, q: str = None, s: str = None):
 #     "tax": 381
 # }
 
+
 class Item(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
     tax: Optional[float] = None
+
 
 # Start using the "Item" BaseModel
 # Post / Delete / Patch methods
@@ -82,9 +94,11 @@ class Item(BaseModel):
 def add_item(item_id: int, item: Item):
     return {"item_id": item_id, "item_name": item.name}
 
+
 @app.delete("/items/{item_id}")
 def delete_item(item_id: int, item: Item):
     return {"action": "deleted", "item_id": item_id}
+
 
 @app.patch("/items/{item_id}")
 def patch_item(item_id: int, item: Item):
@@ -101,5 +115,5 @@ def patch_item(item_id: int, item: Item):
 def fetch_buckets():
     s3 = boto3.client("s3")
     response = s3.list_buckets()
-    buckets = response['Buckets']
+    buckets = response["Buckets"]
     return {"buckets": buckets}
