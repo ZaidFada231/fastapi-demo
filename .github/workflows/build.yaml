@@ -3,11 +3,11 @@ name: container-build
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.actor }}/fastapi-demo
+  IMAGE_NAME: $fastapi-demo
   IMAGE_TAG: 1.${{ github.run_number }} # GITHUB_RUN_NUMBER
   DOCKER_BUILDKIT: 1
 
