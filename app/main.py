@@ -16,7 +16,7 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 DBHOST = os.environ.get("DBHOST")
 DBUSER = os.environ.get("DBUSER")
 DBPASS = os.environ.get("DBPASS")
-DB = "mst3k"  # replace with your UVA computing ID / database name
+DB = "ycq2zz"  # replace with your UVA computing ID / database name
 # The URL for this API has a /docs endpoint that lets you see and test
 # your various endpoints/methods.
 
@@ -46,8 +46,7 @@ def github_user_repos(user):
 @app.get("/add/{number_1}/{number_2}")
 def add_me(number_1: int, number_2: int):
     sum = number_1 + number_2
-    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
-    return {"test sum": DBHOST}
+    return {"test sum": sum}
 
 
 # Let's develop a new one:
@@ -72,6 +71,7 @@ def get_all_albums():
     db.close()
     return results
 
+
 @app.get("/albums/{id}")
 def get_one_album(id):
     db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
@@ -80,6 +80,7 @@ def get_one_album(id):
     results = c.fetchall()
     db.close()
     return results
+
 
 ## Parameters
 # Introduce parameter data types and defaults from the Optional library
