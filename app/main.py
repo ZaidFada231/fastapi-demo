@@ -62,6 +62,15 @@ def multiply_me(number_1: int, number_2: int):
     return {"mult": mult}
 
 
+@app.get("/albums")
+def get_albums():
+    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+    c.execute("""SELECT * FROM albums ORDER BY name""")
+    results = c.fetchall()
+    return results
+
+
 ## Parameters
 # Introduce parameter data types and defaults from the Optional library
 @app.get("/items/{item_id}")
@@ -125,12 +134,3 @@ def fetch_buckets():
     response = s3.list_buckets()
     buckets = response["Buckets"]
     return {"buckets": buckets}
-
-
-@app.get("/albums")
-def get_albums():
-    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
-    c = db.cursor(MySQLdb.cursors.DictCursor)
-    c.execute("""SELECT * FROM albums ORDER BY name""")
-    results = c.fetchall()
-    return results
