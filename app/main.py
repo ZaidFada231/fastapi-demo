@@ -46,6 +46,7 @@ def github_user_repos(user):
 @app.get("/add/{number_1}/{number_2}")
 def add_me(number_1: int, number_2: int):
     sum = number_1 + number_2
+    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
     return {"test sum": DBHOST}
 
 
@@ -63,13 +64,22 @@ def multiply_me(number_1: int, number_2: int):
 
 
 @app.get("/albums")
-def get_albums():
+def get_all_albums():
     db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
     c = db.cursor(MySQLdb.cursors.DictCursor)
-    c.execute("""SELECT * FROM albums ORDER BY name""")
+    c.execute("SELECT * FROM albums ORDER BY name")
     results = c.fetchall()
+    db.close()
     return results
 
+@app.get("/albums/{id}")
+def get_one_album(id):
+    db = MySQLdb.connect(host=DBHOST, user=DBUSER, passwd=DBPASS, db=DB)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+    c.execute("SELECT * FROM albums WHERE id=" + id)
+    results = c.fetchall()
+    db.close()
+    return results
 
 ## Parameters
 # Introduce parameter data types and defaults from the Optional library
